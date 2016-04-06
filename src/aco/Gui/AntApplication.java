@@ -1,13 +1,15 @@
 package aco.Gui;
 
 import javax.swing.JRadioButton;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
 import java.awt.BorderLayout;
+
 import javax.swing.border.LineBorder;
+
 import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,23 +19,27 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import java.util.List;
+
 import javax.swing.JComboBox;
+
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-
 
 import aco.Ant.Ant;
 import aco.Ant.AntColony;
 import aco.Ant.Controller;
 import aco.Ant.GlobalSettings;
-
 import aco.World.Food;
 import aco.World.World;
 
@@ -49,14 +55,20 @@ public class AntApplication extends JPanel implements Controller  {
 //	private Node node;
 	private MainPanel mainPanel;
 	private JPanel sidePanel;
+	private JPanel bottomPanel;
 	private JFrame frame;
 	private int mouseX, mouseY;
 	private JComboBox sizeComboBox;
 	
+	 public static JLabel displayLabel ;
+
+
+	
+
 	private int totalAnts;
 	 
-	private final static int WINDOW_WIDTH = 900;
-	private final static int WINDOW_HEIGHT = 700;
+	//private final static int WINDOW_WIDTH = 900;
+	//private final static int WINDOW_HEIGHT =600;
 	private final static int COLOR_RED_VAL = 420<< 16;
 	private final static int COLOR_GB_VAL = 420|(420<<8);
 	
@@ -97,7 +109,9 @@ public class AntApplication extends JPanel implements Controller  {
 		
 	 //makes the nodes draggable
         
-		sidePanel = new JPanel (new GridLayout(3,0,0,0));
+		sidePanel = new JPanel (new GridLayout(4,0,0,0));
+		
+		
 		JRadioButton goal = new JRadioButton("Food");
 		goal.setFocusable(false);
 		sidePanel.add(goal);
@@ -126,7 +140,7 @@ public class AntApplication extends JPanel implements Controller  {
 	}
 
 	public void start () {
-		/*Runnable r = new Runnable() {
+		Runnable r = new Runnable() {
 			
 			@Override
 			public void run() {
@@ -134,10 +148,15 @@ public class AntApplication extends JPanel implements Controller  {
 			}
 		};
 		Thread t  = new Thread(r);
-		t.start();*/
+		t.start();
+		
+		// we need the above to create a new thread when we call the start method, otherwise it will crash, for e.g, in our restart button,
+		
 		//Actually, i think we dont need to create the thread as above,
 		//The following line shld be sufficient
-		ac.start();
+		
+		
+		//ac.start();
 	}
 
 	private void createGUI() {
@@ -148,21 +167,64 @@ public class AntApplication extends JPanel implements Controller  {
 	//	frame.add(mainPanel);
 	//	mainPanel.add(this);
 		mainPanel = new MainPanel(currentBI, new Dimension(this.width, this.height));
-		
+		bottomPanel = new JPanel();
 //		addFoodButton(frame);
 		frame.add(mainPanel,BorderLayout.EAST);
 		frame.add(sidePanel,BorderLayout.WEST);
+		frame.add(bottomPanel,BorderLayout.SOUTH);
 		mainPanel.setBorder(new LineBorder(Color.black, 4));
 		sidePanel.setBorder(new LineBorder(Color.black, 4));
-		mainPanel.setBackground(new Color(150,100,170));
+		bottomPanel.setBorder(new LineBorder(Color.black, 4));
+		mainPanel.setBackground(new Color(250,100,170));
+		
+		//String b = a.toString();
+		
+		displayLabel = new JLabel();
+		
+		//displayLabel.setText(ac.getGlobalBestpathValue().toString());
+		
+	//	System.out.println(	ac.getGlobalBestpathValue());
+		 
+      	displayLabel.setText ("Ants are hunting for food" );
+		bottomPanel.add(displayLabel);
+		
+		
+		//sidePanel.setSize(100, 400);
 
+		JButton restartButton = new JButton("Restart") ;
+		restartButton.setPreferredSize(null);
+		
+		restartButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				displayLabel.setText ("Ants are hunting for food" );
+		//	currentBI.flush();
+			//setPheromoneAt(0,0,0,0);
+				// setEndOfIteration();
+				//displayLabel.repaint();
+				//mainPanel.repaint();
+			//	bottomPanel.repaint();
+			
+				start ();
+				
+				
+			}});
+		sidePanel.add(restartButton);
+		
 	//	frame.add(this);
 		try{
 	
 			BufferedImage bi= ImageIO.read(new File("ant.png"));
 			JLabel picLabel = new JLabel(new ImageIcon( bi ));
+			//picLabel.setSize(new Dimension(10,10));
 			picLabel.setBackground(new Color(150,100,170));
+			picLabel.setPreferredSize(null);
+		//	picLabel.setSize(2,2);
 			sidePanel.add(picLabel);
+			sidePanel.setPreferredSize(null);
+			
 		}
 		catch(IOException ex){	}
 	
@@ -181,6 +243,8 @@ public class AntApplication extends JPanel implements Controller  {
 
 
 
+	
+		
 		frame.pack();
 		frame.setLocation(0,0);
 
@@ -199,6 +263,14 @@ public class AntApplication extends JPanel implements Controller  {
 		g2.fillRect(0, 0, width, height);	
 	
 	}
+	
+	public static void setDisplayLabel(String text){
+		displayLabel.setText("Shortest Path found so far " + text);
+	}
+	
+	
+	
+	
 
 	@Override
 	public void setFoodAt()

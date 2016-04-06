@@ -70,7 +70,9 @@ public class MainPanel extends JPanel  {
 		g.drawImage(bi, 0, 0, null);
 	}
 	
-	 
+	 public void flush(){
+		 bi.flush();
+	 }
 	public void setImage(BufferedImage newBI){
 		synchronized (bi) {
 			this.bi = newBI;

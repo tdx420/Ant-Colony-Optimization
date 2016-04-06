@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
+import aco.Gui.AntApplication;
 import aco.World.Node;
 import aco.World.Path;
 import aco.World.World;
-
 import aco.World.Food;
 
 
@@ -24,8 +24,13 @@ public class AntColony implements Observer
     protected int      iterCounter;
     protected int      iterations;
 
-    private double globalBestpathValue;
-    private Path globalBestPath;
+    private Double globalBestpathValue;
+    
+    public Double getGlobalBestpathValue() {
+		return globalBestpathValue;
+	}
+
+	private Path globalBestPath;
     private int numAntsStarted;
     
     private int numberOfPaths;
@@ -42,7 +47,7 @@ public class AntColony implements Observer
         numAnts = nAnts;
         
         iterations = nIterations;
-        globalBestpathValue = -1;
+        globalBestpathValue = -1.0;
         globalBestPath = null;
         this.controller = controller;
         nodesWithPheromone = new LinkedList<Node>();
@@ -178,6 +183,8 @@ public class AntColony implements Observer
 				System.out.println("Shortest Path so far  "+ f[i].name + globalBestpathValue);
 					DebugSettings.writeToFile( "Shortest Path so far  "+ globalBestpathValue);
 			//	DebugSettings.writeToFile(" " + globalBestpathValue);
+					AntApplication.setDisplayLabel(globalBestpathValue.toString());
+			
 			}
 		}
 	}
