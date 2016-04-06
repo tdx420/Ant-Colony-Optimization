@@ -54,12 +54,12 @@ public class AntApplication extends JPanel implements Controller  {
 	private World world;
 //	private Node node;
 	private MainPanel mainPanel;
-	private JPanel sidePanel;
+	private JPanel sidePanel,  sidePanel1, sidePanel2;
 	private JPanel bottomPanel;
 	private JFrame frame;
 	private int mouseX, mouseY;
 	private JComboBox sizeComboBox;
-	
+	Controller controller;
 	 public static JLabel displayLabel ;
 
 
@@ -67,12 +67,18 @@ public class AntApplication extends JPanel implements Controller  {
 
 	private int totalAnts;
 	 
+	
+
+
+
+
 	//private final static int WINDOW_WIDTH = 900;
 	//private final static int WINDOW_HEIGHT =600;
 	private final static int COLOR_RED_VAL = 420<< 16;
 	private final static int COLOR_GB_VAL = 420|(420<<8);
 	
 	public AntApplication (int width, int height) {
+		controller = this;
 		
 		this.width = width;
 		this.height = height;
@@ -96,6 +102,7 @@ public class AntApplication extends JPanel implements Controller  {
 		//	food[1] = new Food(" a ", 560, 420 ,GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 			
 			food[i] = new Food( "b ", 490, 220 , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
+		//	food[1] = new Food( "b ", 290, 20 , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 		//	food[i] = new Food( "b ", mainPanel.getMouseX(), mainPanel.getMouseY() , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 		
 		
@@ -108,21 +115,25 @@ public class AntApplication extends JPanel implements Controller  {
 //		mainPanel.moveFood(food);
 		
 	 //makes the nodes draggable
+        sidePanel = new JPanel(new GridLayout(2,0,0,0));
         
-		sidePanel = new JPanel (new GridLayout(4,0,0,0));
+		sidePanel1 = new JPanel (new GridLayout(3,0,0,0));
+		sidePanel2 = new JPanel(new GridLayout(1,0,0,0));
 		
 		
 		JRadioButton goal = new JRadioButton("Food");
 		goal.setFocusable(false);
-		sidePanel.add(goal);
-		add(sidePanel, BorderLayout.WEST);
+		sidePanel1.add(goal);
+		
 		
 //		mainPanel.moveFood(food,world);
-		antSizeComboBox();
+		
 	
+		totalAnts =55;
 		//Create ant colony, Nants  = 2nd arg and 50000 iterations
 		ac = new AntColony(world,  totalAnts , GlobalSettings.TOTAL_ITERATIONS, this);
 		
+		antSizeComboBox();
 		//Initialize ant, steps per iteration
 		Ant.initialize(ac, GlobalSettings.STEPS_PER_ITERATION);
 		
@@ -135,6 +146,7 @@ public class AntApplication extends JPanel implements Controller  {
 			public void run()
 			{
 				frame.setVisible(true);
+				//frame.pack();
 			}
 		});
 	}
@@ -173,7 +185,8 @@ public class AntApplication extends JPanel implements Controller  {
 		frame.add(sidePanel,BorderLayout.WEST);
 		frame.add(bottomPanel,BorderLayout.SOUTH);
 		mainPanel.setBorder(new LineBorder(Color.black, 4));
-		sidePanel.setBorder(new LineBorder(Color.black, 4));
+		sidePanel1.setBorder(new LineBorder(Color.black, 4));
+		sidePanel2.setBorder(new LineBorder(Color.black, 4));
 		bottomPanel.setBorder(new LineBorder(Color.black, 4));
 		mainPanel.setBackground(new Color(250,100,170));
 		
@@ -189,7 +202,7 @@ public class AntApplication extends JPanel implements Controller  {
 		bottomPanel.add(displayLabel);
 		
 		
-		//sidePanel.setSize(100, 400);
+		//sidePanel1.setSize(100, 400);
 
 		JButton restartButton = new JButton("Restart") ;
 		restartButton.setPreferredSize(null);
@@ -212,19 +225,27 @@ public class AntApplication extends JPanel implements Controller  {
 				
 				
 			}});
-		sidePanel.add(restartButton);
+		sidePanel1.add(restartButton);
 		
-	//	frame.add(this);
+	
 		try{
 	
-			BufferedImage bi= ImageIO.read(new File("ant.png"));
+			BufferedImage bi= ImageIO.read(new File("ant1.png"));
 			JLabel picLabel = new JLabel(new ImageIcon( bi ));
 			//picLabel.setSize(new Dimension(10,10));
 			picLabel.setBackground(new Color(150,100,170));
 			picLabel.setPreferredSize(null);
 		//	picLabel.setSize(2,2);
-			sidePanel.add(picLabel);
-			sidePanel.setPreferredSize(null);
+			
+			sidePanel.add(sidePanel1);
+			
+		
+			sidePanel2.add(picLabel);
+			sidePanel.add(sidePanel2);
+		
+			
+		//	sidePanel1.add(picLabel);
+		
 			
 		}
 		catch(IOException ex){	}
@@ -240,11 +261,11 @@ public class AntApplication extends JPanel implements Controller  {
 	//	p.setPreferredSize(new Dimension(w+5, h+5));
 	//	frame.setContentPane(p);
 		//frame.setContentPane(mainPanel);
-		//frame.setContentPane(sidePanel);
+		//frame.setContentPane(sidePanel1);
 
 
 
-	
+		sidePanel1.setPreferredSize(new Dimension(170,0));
 		
 		frame.pack();
 		frame.setLocation(0,0);
@@ -338,61 +359,70 @@ public class AntApplication extends JPanel implements Controller  {
 	
 	}
 	
-	public void addFoodButton(JFrame a){
-		sidePanel = new JPanel ();
+
 	
+	public void antSizeComboBox() {
 		
-		JRadioButton goal = new JRadioButton("Food");
-		goal.setFocusable(false);
-		sidePanel.add(goal); 
-		a.add(sidePanel, BorderLayout.WEST);
-		
-		goal.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			//	ants.setTileToAdd(Ants.Tile.GOAL);
-			}
-		});
-		
-		
-	}
-	
-	
-	public void antSizeComboBox(){
-		
-		Dimension controlDimension = new Dimension(75, 25);
+	//	Dimension controlDimension = new Dimension(5, 5);
 		sizeComboBox = new JComboBox();
 		sizeComboBox.setFocusable(false);
-		sizeComboBox.setMinimumSize(controlDimension);
-		sizeComboBox.setMaximumSize(controlDimension);
-		sizeComboBox.setPreferredSize(controlDimension);
+		//sizeComboBox.setMinimumSize(controlDimension);
+	//	sizeComboBox.setMaximumSize(controlDimension);
+	//	sizeComboBox.setPreferredSize(controlDimension);
 		//sizeComboBox.addItem("10 X 10");
-		sizeComboBox.addItem("0");
+	
+		sizeComboBox.addItem("");
+		sizeComboBox.addItem("1");
+		sizeComboBox.addItem("20");
 		sizeComboBox.addItem("50");
-		sizeComboBox.addItem("200");
 
 	
 		sizeComboBox.addItemListener(new ItemListener(){
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				synchronized(this){
 				
-				 if(sizeComboBox.getSelectedItem().equals("0")){
-					AntApplication.this.totalAnts = 0;
+				 if(sizeComboBox.getSelectedItem().equals("1")){
+					ac.setGlobalBestpathValue(-1.0);
+					displayLabel.setText ("Ants are hunting for food" );
+					 ac.setNumAnts(1);
+					 start();
+			
+				 }
+				else if(sizeComboBox.getSelectedItem().equals("20")){
+					ac.setGlobalBestpathValue(-1.0);
+					displayLabel.setText ("Ants are hunting for food" );
+					ac.setNumAnts(20);
+					 start();
 				}
 				else if(sizeComboBox.getSelectedItem().equals("50")){
-					AntApplication.this.totalAnts = 50;
-				}
-				else if(sizeComboBox.getSelectedItem().equals("200")){
-				AntApplication.this.totalAnts = 200;
-					
+					ac.setGlobalBestpathValue(-1.0);
+					displayLabel.setText ("Ants are hunting for food" );
+					ac.setNumAnts(50);
+				 	start();
 				}	
+			}
 			}
 		});
 
-		sizeComboBox.setSelectedItem("200");
-		sidePanel.add(sizeComboBox);
 		
+		
+		
+		
+		sizeComboBox.setSelectedItem("");
+		
+		JPanel combo_panel = new JPanel(new GridLayout(0,2,10,0));
+		//combo_panel.preferredSize(new Dimension(30,30));
+
+		JLabel antSize_label = new JLabel ("Ant Size: ");
+		
+		combo_panel.add(antSize_label);
+		combo_panel.add(sizeComboBox);
+		combo_panel.setPreferredSize(null);
+		sidePanel1.add(combo_panel);
+	//	sidePanel1.setPreferredSize(new Dimension( 100, 40 ));
+		//   combo_panel.setPreferredSize(new Dimension(100, 10));
 	}
 	
 

@@ -19,7 +19,13 @@ public class AntColony implements Observer
 	protected World    world;
 	
 	protected int      numAnts;
-    protected int      antCounter;
+    public void setNumAnts(int numAnts) {
+		this.numAnts = numAnts;
+	}
+
+
+
+	protected int      antCounter;
     
     protected int      iterCounter;
     protected int      iterations;
@@ -114,7 +120,11 @@ public class AntColony implements Observer
         //start all the ants
         for(int i = 0; i < numAntsStarted; i++)
         {
-            ants[i].start();
+        	try{
+            ants[i].start();}
+        	catch(ArrayIndexOutOfBoundsException e){
+        		
+        	}
         }
     }
     
