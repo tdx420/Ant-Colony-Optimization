@@ -199,6 +199,7 @@ public class AntApplication extends JPanel implements Controller  {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
+				ac.setGlobalBestpathValue(-1.0);
 				displayLabel.setText ("Ants are hunting for food" );
 		//	currentBI.flush();
 			//setPheromoneAt(0,0,0,0);
@@ -343,7 +344,7 @@ public class AntApplication extends JPanel implements Controller  {
 		
 		JRadioButton goal = new JRadioButton("Food");
 		goal.setFocusable(false);
-		sidePanel.add(goal);
+		sidePanel.add(goal); 
 		a.add(sidePanel, BorderLayout.WEST);
 		
 		goal.addActionListener(new ActionListener(){

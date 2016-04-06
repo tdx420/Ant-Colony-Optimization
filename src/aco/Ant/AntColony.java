@@ -26,9 +26,11 @@ public class AntColony implements Observer
 
     private Double globalBestpathValue;
     
-    public Double getGlobalBestpathValue() {
-		return globalBestpathValue;
+    public void setGlobalBestpathValue(Double globalBestpathValue) {
+		this.globalBestpathValue = globalBestpathValue;
 	}
+
+	
 
 	private Path globalBestPath;
     private int numAntsStarted;
