@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 
 import java.awt.Color;
-public class Food extends JPanel{
+public class Food extends JPanel {
 	
 
 		//Nodes with food have pheromoneIndex = FOOD_VALUE, generally -1
@@ -15,9 +15,9 @@ public class Food extends JPanel{
 
 	public String name; 
 	public int lowerX,lowerY, width, height;
-	boolean alive;
+	//boolean alive;
 	public Food(String name, int lx, int ly, int width, int height) {
-	 alive =false;
+	 //alive =false;
 
 		this.lowerX = lx;
 		this.lowerY = ly;

@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JComboBox;
 
@@ -41,6 +42,7 @@ import aco.Ant.AntColony;
 import aco.Ant.Controller;
 import aco.Ant.GlobalSettings;
 import aco.World.Food;
+import aco.World.Node;
 import aco.World.World;
 
 
@@ -52,9 +54,10 @@ public class AntApplication extends JPanel implements Controller  {
 	private Food food[];
 	private int totalFood;
 	private World world;
-//	private Node node;
+	private Node node;
 	private MainPanel mainPanel;
 	private JPanel sidePanel,  sidePanel1, sidePanel2;
+	private JPanel foodPanel, desc_foodPanel, add_foodPanel;
 	private JPanel bottomPanel;
 	private JFrame frame;
 	private int mouseX, mouseY;
@@ -67,10 +70,6 @@ public class AntApplication extends JPanel implements Controller  {
 
 	private int totalAnts;
 	 
-	
-
-
-
 
 	//private final static int WINDOW_WIDTH = 900;
 	//private final static int WINDOW_HEIGHT =600;
@@ -89,19 +88,16 @@ public class AntApplication extends JPanel implements Controller  {
 		//	//initialize world, start node initialises ant                                                                                                     
 		world.initializeWorld(300, 300);
 		
-		totalFood =5;
+		totalFood =3;
 		food = new Food[totalFood];
 		
 		for (int i =0 ; i <food.length ; i++)
 		{	
 		//	food[i] = new Food(" a ", 360, 320 ,GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 			
-			
-			
-			
 		//	food[1] = new Food(" a ", 560, 420 ,GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 			
-			food[i] = new Food( "b ", 490, 220 , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
+			food[i] = new Food( "a ", 490, 220 , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 		//	food[1] = new Food( "b ", 290, 20 , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 		//	food[i] = new Food( "b ", mainPanel.getMouseX(), mainPanel.getMouseY() , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
 		
@@ -109,6 +105,7 @@ public class AntApplication extends JPanel implements Controller  {
 		
 		}
 		
+
 		
 	
 		world.initializeFood(food, mainPanel);
@@ -119,11 +116,116 @@ public class AntApplication extends JPanel implements Controller  {
         
 		sidePanel1 = new JPanel (new GridLayout(3,0,0,0));
 		sidePanel2 = new JPanel(new GridLayout(1,0,0,0));
+		foodPanel = new JPanel(new GridLayout(1,2,0,0));
+		desc_foodPanel = new JPanel(new GridLayout(1,0,0,0));
+		add_foodPanel = new JPanel(new GridLayout(2,0,0,0));
+		
+		JRadioButton add_Food1 = new JRadioButton("1 ");
+		add_Food1.setFocusable(false);
+		
+		add_Food1.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				// TODO Auto-generated method stub
+				
+			//	System.out.print("add");
+				 if (add_Food1.isSelected()){
+					 
+				
+					 
+					 int randomNumber = (int) Math.random();
+						
+						food[1] = new Food( "b ",  150, 380, GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
+						 ac.setGlobalBestpathValue(-1.0);
+						world.initializeFood(food, mainPanel);
+						displayLabel.setText ("Ants are hunting for food" );
+						start();
+					
+						System.out.print("add");
+			    
+					
+			        }else{
+			        	// System.out.println("hello");
+			        //	food[1].remove(1);
+			     //   	 int randomNumber = (int) Math.random();
+							
+						food[1] = new Food( "b ",  490, 220 , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
+						 ac.setGlobalBestpathValue(-1.0);
+						world.initializeFood(food, mainPanel);
+						displayLabel.setText ("Ants are hunting for food" );
+						start();
+			        	
+			        	System.out.println("Remove");
+						
+			        }
+				
+				
+				
+			}});
 		
 		
-		JRadioButton goal = new JRadioButton("Food");
-		goal.setFocusable(false);
-		sidePanel1.add(goal);
+		JRadioButton add_Food2 = new JRadioButton("2 ");
+		add_Food2.setFocusable(false);
+		
+		add_Food2.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				// TODO Auto-generated method stub
+				
+			//	System.out.print("add");
+				 if (add_Food2.isSelected()){
+					 
+				
+					 
+						food[2] = new Food( "c ", 200 , 130 + 60, GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
+						//Food food = new Food();
+						 ac.setGlobalBestpathValue(-1.0);
+						world.initializeFood(food, mainPanel);
+					//	world.set
+						//Node.setIsFood(200,100);
+					
+							displayLabel.setText ("Ants are hunting for food" );
+						start();
+			    
+					
+			        }else{
+			        	// System.out.println("hello");
+			        //	food[1].remove(1);
+			     //   	 int randomNumber = (int) Math.random();
+							//food[2].remove(2);;
+			        	
+			        	food[2] = new Food( "c ",  490, 220 , GlobalSettings.FOOD_WIDTH,GlobalSettings.FOOD_HEIGHT);
+						 ac.setGlobalBestpathValue(-1.0);
+						world.initializeFood(food, mainPanel);
+						displayLabel.setText ("Ants are hunting for food" );
+						start();
+			        	
+			        	
+					System.out.println("Remove");
+						
+			        }
+				
+				
+				
+			}});
+		
+		
+		add_foodPanel.add(add_Food1);
+		add_foodPanel.add(add_Food2);
+		
+		foodPanel.add(desc_foodPanel);
+		foodPanel.add(add_foodPanel);
+		
+		JLabel label_foodDesc = new JLabel("Add food");
+		desc_foodPanel.add(label_foodDesc);
+		
+		sidePanel1.add(foodPanel);
 		
 		
 //		mainPanel.moveFood(food,world);
@@ -189,7 +291,8 @@ public class AntApplication extends JPanel implements Controller  {
 		sidePanel2.setBorder(new LineBorder(Color.black, 4));
 		bottomPanel.setBorder(new LineBorder(Color.black, 4));
 		mainPanel.setBackground(new Color(250,100,170));
-		
+	//	sidePanel2.setBackground(new Color(1,1,1));
+		sidePanel2.setBackground(Color.WHITE);
 		//String b = a.toString();
 		
 		displayLabel = new JLabel();
@@ -230,7 +333,7 @@ public class AntApplication extends JPanel implements Controller  {
 	
 		try{
 	
-			BufferedImage bi= ImageIO.read(new File("ant1.png"));
+			BufferedImage bi= ImageIO.read(new File("ant.png"));
 			JLabel picLabel = new JLabel(new ImageIcon( bi ));
 			//picLabel.setSize(new Dimension(10,10));
 			picLabel.setBackground(new Color(150,100,170));

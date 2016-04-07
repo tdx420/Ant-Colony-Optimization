@@ -1,12 +1,13 @@
 package aco.World;
 
 import javax.swing.JPanel;
+
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 import aco.Ant.Controller;
 import aco.Ant.GlobalSettings;
-
 import aco.Gui.MainPanel;
 
 
@@ -50,17 +51,6 @@ public class Node extends JPanel{
 		// this is also not a food
 		pheromoneIndex = LOWEST_PHEROMONE_INDEX;
 		
-		//makes the nodes draggable
-        addMouseMotionListener(new MouseMotionAdapter()
-        {
-            public void mouseDragged(MouseEvent e)
-            {
-                setLocation(e.getX() + getLocation().x,
-                        e.getY() + getLocation().x);
-                mainPanel.repaint();
-            }
-        });
-
 	}
 
 	public int getPheromoneIndex(){
