@@ -1,8 +1,10 @@
 package aco.Gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -28,7 +30,8 @@ public class MainPanel extends JPanel  {
 		this.bi = bi;
 		this.setPreferredSize(size);
 		
-	
+
+		
 	}
 	
 	public void moveFood(Food  f[]){
@@ -37,6 +40,8 @@ public class MainPanel extends JPanel  {
 		 addMouseMotionListener(new MouseMotionAdapter()
         {
             public void mouseDragged(MouseEvent e) {
+            	
+            	System.out.println("hello");
            
 		   mouseX = e.getX();
 		   mouseY = e.getY();
@@ -52,7 +57,7 @@ public class MainPanel extends JPanel  {
         });
 	}	
 	
-
+	/*
 	
 	public int getMouseX()
 	{
@@ -62,6 +67,8 @@ public class MainPanel extends JPanel  {
 	{
 		return this.mouseY;
 	}
+	*/
+
 	public void paint(Graphics g) {
 		//super.paint(g);
 		
@@ -69,7 +76,7 @@ public class MainPanel extends JPanel  {
 		//bi.flush();
 		g.drawImage(bi, 0, 0, null);
 	}
-	
+		
 	
 	public void setImage(BufferedImage newBI){
 		synchronized (bi) {

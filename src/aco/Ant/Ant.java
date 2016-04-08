@@ -1,5 +1,7 @@
 package aco.Ant;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -8,7 +10,6 @@ import aco.World.Edge;
 import aco.World.Node;
 import aco.World.Path;
 import aco.World.World;
-
 import aco.World.Food;
 
 // simplest event distribution method  that decouples source (Obervable) and listener (Observer)
@@ -21,8 +22,8 @@ public class Ant extends Observable implements Runnable
 	private Path 		bestPath;
 	private Path 		curPath;
 	private double		bestPathValue;
-
-	private Food[] food;
+	ArrayList<Food> foods;
+	//private Food[] food;
 	private boolean foundFood;
 	private Random pseudoRandom;
 
@@ -146,7 +147,7 @@ public class Ant extends Observable implements Runnable
     //This is the 8 dirs rule in which each dir can have max dir probablilty
     private Node stateTransitionRule( Node n){
     
-	    	Food [] food = world.f;
+	    	foods = world.foods;
 	    
 	    	
 	    	
@@ -164,19 +165,29 @@ public class Ant extends Observable implements Runnable
 	    	// food condition    	
 	    	for (int i = 0; i < neighbours.length; i++) {
 	    	
+	    		ArrayList<Food> copy = new ArrayList<Food>(foods);
+					    		Iterator itr = copy.iterator();
+					    		while(itr.hasNext())
+					    		{
+					    			
+					    			Food food = (Food) itr.next();
+					    		
+					    			if (neighbours[i].isFood()) {
+						    			changeDir();
+						    			//Set found food
+						    			this.setFoundFood(true);			
+						    				//if food is found it goes back to nest ,so return the srart node
+						    			//Again set the ant to the start node
+						    			return startNode;
+						    		}
+					    			
+					    			
+					    		}
 	    		
-	    		for(int k =0 ; k <food.length; k++)
-	    		{
-	    	
-	    		if (neighbours[i].isFood()) {
-	    			changeDir();
-	    			//Set found food
-	    			this.setFoundFood(true);			
-	    				//if food is found it goes back to nest ,so return the srart node
-	    			//Again set the ant to the start node
-	    			return startNode;
-	    		}
-	    		}
+	    		
+	    		
+	    		
+					    	
 	    		
 	    	}
 	   	

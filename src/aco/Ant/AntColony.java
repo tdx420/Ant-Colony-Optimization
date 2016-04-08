@@ -1,11 +1,13 @@
 package aco.Ant;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
 import aco.Gui.AntApplication;
+import aco.World.Edge;
 import aco.World.Node;
 import aco.World.Path;
 import aco.World.World;
@@ -181,24 +183,35 @@ public class AntColony implements Observer
 //the shortest path found so far, update as the better paths are found
 	public void updateBestPath(  Path bestPath, double bestPathValue) {
 	
-		Food f[] = world.f;
-		for (int i = 0; i < f.length; i++) 
-		{
-			numberOfPaths++;
-	
 		
+		
+		ArrayList<Food> f = world.foods;
+		
+		Iterator itr = f.iterator();
+		while(itr.hasNext())
+		{
+			Food food = (Food) itr.next();
+
+			numberOfPaths++;
+			
+			
 			if (globalBestpathValue == -1 || bestPathValue < globalBestpathValue)
 			{
 				
 				globalBestpathValue = bestPathValue;
 				globalBestPath = bestPath;
-				System.out.println("Shortest Path so far  "+ f[i].name + globalBestpathValue);
+				System.out.println("Shortest Path so far  "+ food.name + globalBestpathValue);
 					DebugSettings.writeToFile( "Shortest Path so far  "+ globalBestpathValue);
 			//	DebugSettings.writeToFile(" " + globalBestpathValue);
 					AntApplication.setDisplayLabel(globalBestpathValue.toString());
 			
 			}
+			
+			
 		}
+		
+		
+	
 	}
 	
     //find the best global path

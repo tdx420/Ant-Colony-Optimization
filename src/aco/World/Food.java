@@ -14,10 +14,24 @@ public class Food extends JPanel {
 	public int pheromoneIndex;
 
 	public String name; 
+	public String getName() {
+		return name;
+	}
+
 	public int lowerX,lowerY, width, height;
-	//boolean alive;
+	
+	public void setLowerX(int lowerX) {
+		this.lowerX = lowerX;
+	}
+
+
+
+	public void setLowerY(int lowerY) {
+		this.lowerY = lowerY;
+	}
+
+
 	public Food(String name, int lx, int ly, int width, int height) {
-	 //alive =false;
 
 		this.lowerX = lx;
 		this.lowerY = ly;
@@ -25,28 +39,9 @@ public class Food extends JPanel {
 		this.height = height;
 		this.name = name;
 		
-      
-		
-       
-	//	g2.fillRect(lowerX, lowerY, food.width, food.height);
-	//	g2.fillRect(lowerX, food1.lowerY, food1.width, food1.height);
-	//	g2.dispose();
-		/*
-		 addMouseMotionListener(new MouseMotionAdapter()
-        {
-            public void mouseDragged(MouseEvent e)
-            {
-               displayPanel.setLocation(e.getX() + lowerX,
-                        e.getY() + lowerY);
-             	displayPanel.repaint();
-            }
-        });
-        */
-         //  repaint();
+  
 	}
 	
-
-    
 	public int getLowerX()
 	{
 		return this.lowerX;
